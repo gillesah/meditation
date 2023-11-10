@@ -8,12 +8,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:test_audio/main.dart';
-
+import 'package:ZenFlow/main.dart';
+import 'package:ZenFlow/consecutivedays.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    var consecutiveDaysManager;
+    await tester.pumpWidget(MyApp(consecutiveDaysManager: consecutiveDaysManager,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

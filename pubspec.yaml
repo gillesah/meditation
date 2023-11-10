@@ -1,4 +1,4 @@
-name: test_audio
+name: ZenFlow
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,14 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^4.1.0
-  assets_audio_player: ^3.0.6
+  #audioplayers: ^5.0.0
+  #assets_audio_player: ^3.0.6
   shared_preferences: ^2.2.0
   intl: ^0.18.1
-
-
-
-
+  audio_waveforms: ^1.0.4
+  just_audio: ^0.9.34
+  audio_session: ^0.1.16
+  perfect_volume_control: ^1.0.5
+  wave: ^0.2.2
+  wakelock: ^0.5.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -45,6 +47,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+#  flutter_rename_app: ^1.0.0
+#
+#flutter_rename_app:
+#  application_name: ZenFlow
+#  dart_package_name: zenflow_app
+#  application_id: fr.lemeon.zenflow
+#  bundle_id: fr.lemeon.zenflow
+#  android_package_name: fr.zenflow.app
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -66,10 +76,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - images/fond.jpg
-    - assets/aum.mp3
-    - assets/mer.mp3
-    - assets/blanc.mp3
+  #  - images/fond.jpg
+  #  - assets/bol.mp3
+  #  - assets/mer.mp3
+  #  - assets/blanc.mp3
+  #  - assets/om417.mp3
+    - assets/gong2.mp3
+    - assets/meditation_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
