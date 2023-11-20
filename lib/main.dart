@@ -14,15 +14,15 @@ import 'package:wakelock/wakelock.dart';
 import 'consecutivedays.dart';
 import 'package:flutter/widgets.dart';
 
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter services are initialized
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensure Flutter services are initialized
   final consecutiveDaysManager = ConsecutiveDaysManager();
   await consecutiveDaysManager.loadConsecutiveDays();
 
   runApp(MyApp(consecutiveDaysManager: consecutiveDaysManager));
-
 }
+
 class MyApp extends StatelessWidget {
   final ConsecutiveDaysManager consecutiveDaysManager;
 
@@ -35,19 +35,23 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(consecutiveDaysManager: consecutiveDaysManager), // Remove 'const'
+      home: MyHomePage(
+          consecutiveDaysManager: consecutiveDaysManager), // Remove 'const'
       debugShowCheckedModeBanner: false,
     );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   final ConsecutiveDaysManager consecutiveDaysManager;
 
-  MyHomePage({required this.consecutiveDaysManager, Key? key}) : super(key: key);
+  MyHomePage({required this.consecutiveDaysManager, Key? key})
+      : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   String selectedMusic = '';
   Duration meditationDuration = Duration(minutes: 15);
@@ -55,7 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Timer? _timer; // Variable pour le minuteur
   //bool _isPlaying = false; // Booléen pour vérifier si la musique est en cours de lecture
   int consecutiveDays = 0;
-  DateTime? lastMeditationDate; // Variable pour stocker la date de la dernière méditation réussie
+  DateTime?
+      lastMeditationDate; // Variable pour stocker la date de la dernière méditation réussie
   final gongPlayer = AudioPlayer();
   bool showDurationPicker = false;
 
@@ -72,11 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadConsecutiveDays() async {
-    await widget.consecutiveDaysManager.loadConsecutiveDays(); // Use widget to access the manager
+    await widget.consecutiveDaysManager
+        .loadConsecutiveDays(); // Use widget to access the manager
   }
 
   bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   void _showPopupDialog() {
@@ -84,94 +92,85 @@ class _MyHomePageState extends State<MyHomePage> {
     showDialog(
       context: context,
       barrierColor: Colors.black45,
-
       builder: (BuildContext context) {
         return Container(
-              decoration: BoxDecoration(
+          decoration: BoxDecoration(
               gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        const Color.fromARGB(255, 255, 36, 226).withOpacity(1),
-                        const Color.fromARGB(255, 39, 205, 255).withOpacity(1)
-                      ]
-                  )
-              ),
-
-          child:AlertDialog(
-          backgroundColor: Colors.blue,
-          elevation: 7,
-
-          shape: RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.circular(20.0)),
-          content:
-          Container(
-            color: Colors.blue,
-          height: 440,
-          width: 850,
-          child: Stack(
-            alignment: Alignment.bottomCenter,
-
-            children: [
-            Align(
-            alignment: Alignment.topRight,
-            child:IconButton(
-              onPressed: () {
-          Navigator.of(context).pop();},
-              tooltip: 'Fermer',
-              icon: const Icon(Icons.close),
-              color: Color.fromRGBO(142, 45, 226, 1),
-              iconSize: 70
-          ),
-            ),
-              WaveWidget(
-                config: CustomConfig(gradients: [
-                  [Colors.blue.shade200, Colors.pinkAccent],
-                  [Colors.blue.shade200, Colors.pink],
-                  [Colors.blue, Colors.blue.shade200],
-              [Colors.blue.shade200, Colors.blue.shade400],
-              [Colors.blue.shade400, Colors.blue.shade200],
-              [Colors.blue.shade200, Colors.blue],
-
-              ],
-          durations: [65000, 45000, 29440, 22800, 20000, 32000],
-          heightPercentages: [0.1, 0.15, 0.23, 0.25, 0.30, 0.65],
-          blur: const MaskFilter.blur(BlurStyle.solid, 1),
-          gradientBegin: Alignment.bottomLeft,
-          gradientEnd: Alignment.topRight,
-                  // ... Your wave animation configuration ...
-                ),
-                waveAmplitude: 54,
-                backgroundColor: Colors.transparent,
-                size: Size(double.infinity, 300),
-              ),
-              SizedBox(height: 400),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                const Color.fromARGB(255, 255, 36, 226).withOpacity(1),
+                const Color.fromARGB(255, 39, 205, 255).withOpacity(1)
+              ])),
+          child: AlertDialog(
+            backgroundColor: Colors.blue,
+            elevation: 7,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            content: Container(
+              color: Colors.blue,
+              height: 440,
+              width: 850,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  IconButton(
-                    icon: Icon(Icons.play_arrow),
-                    onPressed: () {
-                      // Start the music here
-                      _play(meditationDuration, selectedMusic);
-                    },
-                    iconSize: 80,
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        tooltip: 'Fermer',
+                        icon: const Icon(Icons.close),
+                        color: Color.fromRGBO(142, 45, 226, 1),
+                        iconSize: 70),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.pause),
-                    onPressed: () {
-                      // Pause the music here
-                      _pause();
-                    },
-                    iconSize: 80,
+                  WaveWidget(
+                    config: CustomConfig(
+                      gradients: [
+                        [Colors.blue.shade200, Colors.pinkAccent],
+                        [Colors.blue.shade200, Colors.pink],
+                        [Colors.blue, Colors.blue.shade200],
+                        [Colors.blue.shade200, Colors.blue.shade400],
+                        [Colors.blue.shade400, Colors.blue.shade200],
+                        [Colors.blue.shade200, Colors.blue],
+                      ],
+                      durations: [65000, 45000, 29440, 22800, 20000, 32000],
+                      heightPercentages: [0.1, 0.15, 0.23, 0.25, 0.30, 0.65],
+                      blur: const MaskFilter.blur(BlurStyle.solid, 1),
+                      gradientBegin: Alignment.bottomLeft,
+                      gradientEnd: Alignment.topRight,
+                      // ... Your wave animation configuration ...
+                    ),
+                    waveAmplitude: 54,
+                    backgroundColor: Colors.transparent,
+                    size: Size(double.infinity, 300),
+                  ),
+                  SizedBox(height: 400),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.play_arrow),
+                        onPressed: () {
+                          // Start the music here
+                          _play(meditationDuration, selectedMusic);
+                        },
+                        iconSize: 80,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.pause),
+                        onPressed: () {
+                          // Pause the music here
+                          _pause();
+                        },
+                        iconSize: 80,
+                      ),
+                    ],
                   ),
                 ],
               ),
-
-            ],
-          ),
-          ),
+            ),
           ),
         );
       },
@@ -192,7 +191,6 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       },
       style: ElevatedButton.styleFrom(
-
         primary: Colors.transparent,
         minimumSize: Size(80, 60),
         maximumSize: Size(80, 60),
@@ -200,7 +198,9 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
           side: BorderSide(
-            color: meditationDuration == duration ? Colors.white70 : Colors.transparent,
+            color: meditationDuration == duration
+                ? Colors.white70
+                : Colors.transparent,
             width: 2,
           ),
         ),
@@ -244,7 +244,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     '${duration.inMinutes} min',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: meditationDuration == duration ? Colors.white : Colors.white70,
+                      color: meditationDuration == duration
+                          ? Colors.white
+                          : Colors.white70,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -275,7 +277,6 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 4,
           ),
         ),
-
       ),
       child: Stack(
         children: [
@@ -285,11 +286,9 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: const EdgeInsets.all(0),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-
                   gradient: LinearGradient(
                     colors: [
                       Color.fromRGBO(74, 0, 224, 1),
@@ -305,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
               displayText,
               style: TextStyle(
                 color:
-                selectedMusic == musicAsset ? Colors.white : Colors.white70,
+                    selectedMusic == musicAsset ? Colors.white : Colors.white70,
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -324,7 +323,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _play(Duration duration, String musicAsset) async {
     Wakelock.enable();
     _player = AudioPlayer();
-    await _player.setAudioSource(AudioSource.uri(Uri.parse("https://gilleshelleu.com/zenflow/$musicAsset")));
+    await _player.setAudioSource(AudioSource.uri(
+        Uri.parse("https://gilleshelleu.com/zenflow/$musicAsset")));
 
     _player.positionStream.listen((position) {
       if (position >= duration - Duration(seconds: 20)) {
@@ -339,7 +339,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     _timer = Timer(duration, () async {
-      await gongPlayer.setAsset('assets/gong2.mp3');
+      await gongPlayer
+          .setAsset('https://gilleshelleu.com/zenflow/assets/gong2.mp3');
       await gongPlayer.play();
 
       await Future.delayed(Duration(seconds: 3));
@@ -357,25 +358,31 @@ class _MyHomePageState extends State<MyHomePage> {
   void _pause() {
     _player.pause();
     if (_timer != null) {
-          _timer!.cancel();
+      _timer!.cancel();
       _timer =
-      null; // Remettre le minuteur à null pour indiquer qu'il n'est plus actif
+          null; // Remettre le minuteur à null pour indiquer qu'il n'est plus actif
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("ZenFlow"),
         backgroundColor: Color.fromRGBO(15, 25, 63, 1),
-        titleTextStyle : TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
+        titleTextStyle: TextStyle(
+            color: Colors.white, fontSize: 25, fontWeight: FontWeight.w600),
         actions: [
-        IconButton(
-        onPressed: () => dialogBuilder(context, consecutiveDays), // Show the popup when the play button is pressed
-        tooltip: 'Informations',
-        icon: const Icon(Icons.info_outline, size: 30,),
-        color: Color.fromRGBO(142, 45, 226, 1),
-        iconSize: 100),
+          IconButton(
+              onPressed: () => dialogBuilder(context,
+                  consecutiveDays), // Show the popup when the play button is pressed
+              tooltip: 'Informations',
+              icon: const Icon(
+                Icons.info_outline,
+                size: 30,
+              ),
+              color: Color.fromRGBO(142, 45, 226, 1),
+              iconSize: 100),
         ],
         centerTitle: true,
       ),
@@ -387,27 +394,27 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Container(
                   child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        title('Choisir le son'),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              musicButton('La mer', 'mer.mp3'),
-                              musicButton('OM 417Hz', 'om417.mp3'),
-                              musicButton('Son du Bol', 'bol.mp3'),
-                              musicButton('Son Blanc', 'blanc.mp3'),
-                            ],
-                          ),
-                        ),
-                      ],
+                padding: EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    title('Choisir le son'),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          musicButton('La mer', 'mer.mp3'),
+                          musicButton('OM 417Hz', 'om417.mp3'),
+                          musicButton('Son du Bol', 'bol.mp3'),
+                          musicButton('Son Blanc', 'blanc.mp3'),
+                        ],
+                      ),
                     ),
-                  )),
+                  ],
+                ),
+              )),
               Divider(),
               title('Choisir la durée'),
 // Button to toggle the duration picker
@@ -419,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   });
                 },
               ),
-        playButton(),
+              playButton(),
             ],
           ),
         ),
@@ -429,12 +436,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget playButton() {
     return IconButton(
-        onPressed: _showPopupDialog, // Show the popup when the play button is pressed
+        onPressed:
+            _showPopupDialog, // Show the popup when the play button is pressed
         tooltip: 'Play',
         icon: const Icon(Icons.play_arrow),
         color: Color.fromRGBO(142, 45, 226, 1),
-        iconSize: 90
-    );
+        iconSize: 90);
   }
 
   Widget pauseButton() {
@@ -444,7 +451,6 @@ class _MyHomePageState extends State<MyHomePage> {
       icon: const Icon(Icons.pause),
       color: Color.fromRGBO(142, 45, 226, 1),
       iconSize: 80,
-
     );
   }
 
@@ -459,8 +465,8 @@ class _MyHomePageState extends State<MyHomePage> {
           )),
     );
   }
-
 }
+
 class TickerProviderImpl extends TickerProvider {
   @override
   Ticker createTicker(TickerCallback onTick) => Ticker(onTick);

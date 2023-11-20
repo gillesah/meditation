@@ -18,8 +18,8 @@ class ConsecutiveDaysManager {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setInt('consecutiveDays', consecutiveDays);
     if (lastMeditationDate != null) {
-      await prefs.setString(
-          'lastMeditationDate', DateFormat('yyyy-MM-dd').format(lastMeditationDate!));
+      await prefs.setString('lastMeditationDate',
+          DateFormat('yyyy-MM-dd').format(lastMeditationDate!));
     }
   }
 
@@ -32,12 +32,14 @@ class ConsecutiveDaysManager {
   }
 
   bool isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
   }
 
   void incrementConsecutiveDays() {
-    if (lastMeditationDate != null && isSameDay(lastMeditationDate!, DateTime.now())) {
-      // Si ce n'est pas un nouveau jour (c'est-à-dire le même jour), ne faites rien
+    if (lastMeditationDate != null &&
+        isSameDay(lastMeditationDate!, DateTime.now())) {
     } else {
       // Si c'est un nouveau jour ou la première méditation, augmenter le nombre de jours consécutifs
       consecutiveDays++;
